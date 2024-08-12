@@ -14,16 +14,23 @@ labels_dir = path_synthsr + 'data/labels/labels/'
 #Remove labels 165, 258, 24, 77 and 80 from all the segmented images
 labels_to_delete = [165, 258, 24, 77, 80]
 label_files = [os.path.join(labels_dir, f) for f in os.listdir(labels_dir) if f.endswith('.mgz')]
+print(label_files)
 
 for img_path in label_files:
-    img = nib.load(img_path)
+
+    if img_path.endswith('.mgz'):
+        nifti_path = img_path.replace('.mgz', '.nii.gz')
+        
+    os.system(f'mri_convert {img_path} {nifti_path}')
+
+    img = nib.load(nifti_path)
     data = img.get_fdata()
     for label in labels_to_delete:
         data[data == label] = 0
 
     new_img = nib.MGHImage(data, img.affine, img.header)
-    nib.save(new_img, img_path)
-    
+    nib.save(new_img, nifti_path)
+    os.remove(img_path)
 
 # Numpy arrays with the labels corresponding to samseg
 estimation_labels = np.array([0, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 28, 30, 31, 41, 42, 43, 44, 46, 47, 49, 50, 51, 52, 53, 54, 58, 60, 62, 63, 72, 85]) #Labels in samseg, minus 165, 258, 24, 77 et 80
