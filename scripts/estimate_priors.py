@@ -10,10 +10,6 @@ from SynthSR.estimate_priors import build_intensity_stats
 images_dir = [path_synthsr + 'data/images/HYP/']
 labels_dir = [path_synthsr + 'data/labels/HYP/']
 
-#os.system(f'flirt -in {labels_dir}london_labels.nii -ref {images_dir}london.nii -out {labels_dir}london_labels.nii -omat transformation.mat')
-#os.system(f'flirt -in {labels_dir}london_labels.nii -ref {images_dir}london.nii -applyxfm -init transformation.mat -out {labels_dir}london_labels.nii')
-#os.remove('transformation.mat')
-
 # Numpy arrays with the labels corresponding to samseg
 estimation_labels = np.array([0, 24, 16, 4, 14, 15, 2, 12, 85, 3, 7, 8, 10, 11, 13, 17, 18, 26, 28, 42, 43, 46, 47, 49, 50, 52, 53, 54, 58, 60]) 
 estimation_classes = np.array([0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 7, 3, 8, 9, 10, 11, 12, 13, 14, 15, 16]) # Classes grouping left/right labels and the ventricules
